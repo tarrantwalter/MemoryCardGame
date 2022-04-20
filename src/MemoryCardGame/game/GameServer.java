@@ -1,4 +1,4 @@
-package MemoryCardGame;
+package MemoryCardGame.game;
 
 public class GameServer {
 

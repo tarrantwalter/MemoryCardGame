@@ -1,18 +1,24 @@
-package MemoryCardGame;
+package MemoryCardGame.game;
+
+import javax.swing.*;
 
 public class Card {
 	
-	private int x;
-	private int y;
-	private boolean isFaceUp;
+	private final int     x;
+	private final int     y;
+	private final int number;
+	private final JLabel  face;
+	private final JLabel  back;
 	
-	private Card pair;
+	private boolean isFaceUp = false;
+	private Card pair = null;
 	
-	public Card(int x, int y) {
+	public Card(int x, int y, int number, JLabel face, JLabel back) {
 		this.x = x;
 		this.y = y;
-		this.isFaceUp = false;
-		this.pair = null;
+		this.number = number;
+		this.face = face;
+		this.back = back;
 	}
 	
 	public Card getPair() {
@@ -45,11 +51,13 @@ public class Card {
 	
 	public void flip() {
 		isFaceUp = !isFaceUp;
+		face.setVisible(isFaceUp);
+		back.setVisible(!isFaceUp);
 		// TODO Auto-generated method stub
 	}
 	
 	public String toString() {
-		return "Card[x=" + x + ", y=" + y + ", isFaceUp=" + isFaceUp + "]";
+		return "Card[x=" + x + ",y=" + y + ",isFaceUp=" + isFaceUp + "]";
 	}
 	
 }

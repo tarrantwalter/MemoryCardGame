@@ -1,4 +1,4 @@
-package MemoryCardGame;
+package MemoryCardGame.game;
 
 import java.util.Random;
 
