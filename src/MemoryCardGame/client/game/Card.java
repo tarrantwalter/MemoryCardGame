@@ -1,4 +1,4 @@
-package MemoryCardGame.game;
+package MemoryCardGame.client.game;
 
 import javax.swing.*;
 

@@ -1,18 +1,18 @@
-package MemoryCardGame.controls;
+package MemoryCardGame.client.controls;
 
-import MemoryCardGame.MemoryCardGame;
+import MemoryCardGame.client.ClientGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
-public class CreateAccountControl implements ActionListener {
+public class LoginControl implements ActionListener {
 	
-	private final MemoryCardGame   game;
+	private final ClientGUI        client;
 	private       Consumer<String> errorFunction;
 	
-	public CreateAccountControl(MemoryCardGame game) {
-		this.game = game;
+	public LoginControl(ClientGUI client) {
+		this.client = client;
 	}
 	
 	public void setErrorFunction(Consumer<String> errorFunction) {
@@ -22,11 +22,11 @@ public class CreateAccountControl implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
-		if (buttonName.equals("Create")) {
+		if (buttonName.equals("Login")) {
 			// TODO: Implement login
-			errorFunction.accept("Create Pressed");
+			client.switchToPanel(ClientGUI.WAITING_PANEL);
 		} else if (buttonName.equals("Cancel")) {
-			game.switchToPanel(1);
+			client.switchToPanel(ClientGUI.INITIAL_PANEL);
 		}
 	}
 	

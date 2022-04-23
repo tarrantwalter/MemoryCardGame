@@ -1,9 +1,10 @@
-package MemoryCardGame.game;
+package MemoryCardGame.client.game;
 
 import java.util.Random;
 
 public class Game {
 	
+	// must be an even number
 	private static final int NUMBER_OF_COLUMNS = 6;
 	
 	private Random random;

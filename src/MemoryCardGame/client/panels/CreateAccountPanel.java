@@ -1,44 +1,48 @@
-package MemoryCardGame.panels;
+package MemoryCardGame.client.panels;
 
-import MemoryCardGame.controls.LoginControl;
+import MemoryCardGame.client.controls.CreateAccountControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginPanel extends JPanel {
+public class CreateAccountPanel extends JPanel {
 	
-	public LoginPanel(LoginControl control) {
+	public CreateAccountPanel(CreateAccountControl control) {
 		super(new GridBagLayout());
 		
-		JLabel label = new JLabel("Login", JLabel.CENTER);
+		JLabel label      = new JLabel("Create your User", JLabel.CENTER);
 		JLabel errorLabel = new JLabel("", JLabel.CENTER);
 		
 		errorLabel.setForeground(Color.RED);
 		control.setErrorFunction(errorLabel::setText);
 		
-		JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+		JPanel inputPanel = new JPanel(new GridLayout(3, 2, 5, 5));
 		
 		JLabel         userLabel       = new JLabel("Username: ");
 		JLabel         passLabel       = new JLabel("Password: ");
+		JLabel         verifyPassLabel = new JLabel("Verify Password: ");
 		JTextField     userField       = new JTextField(10);
 		JPasswordField passField       = new JPasswordField(10);
+		JPasswordField verifyPassField = new JPasswordField(10);
 		
-		JButton        loginButton     = new JButton("Login");
-		JButton        cancelButton     = new JButton("Cancel");
+		JButton createButton = new JButton("Create");
+		JButton cancelButton = new JButton("Cancel");
 		
-		loginButton.addActionListener(control);
+		createButton.addActionListener(control);
 		cancelButton.addActionListener(control);
 		
 		inputPanel.add(userLabel);
 		inputPanel.add(userField);
 		inputPanel.add(passLabel);
 		inputPanel.add(passField);
+		inputPanel.add(verifyPassLabel);
+		inputPanel.add(verifyPassField);
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(loginButton);
+		buttonPanel.add(createButton);
 		buttonPanel.add(cancelButton);
 		
-		JPanel grid = new JPanel(new GridLayout(4, 1, 5, 5));
+		JPanel grid = new JPanel(new GridLayout(5, 1, 5, 5));
 		grid.add(label);
 		grid.add(errorLabel);
 		grid.add(inputPanel);

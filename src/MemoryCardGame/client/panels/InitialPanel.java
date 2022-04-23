@@ -1,6 +1,6 @@
-package MemoryCardGame.panels;
+package MemoryCardGame.client.panels;
 
-import MemoryCardGame.controls.InitialControl;
+import MemoryCardGame.client.controls.InitialControl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,10 +21,16 @@ public class InitialPanel extends JPanel {
 		JPanel createButtonBuffer = new JPanel();
 		createButtonBuffer.add(createButton);
 		
-		JPanel grid = new JPanel(new GridLayout(4, 1, 5, 5));
+		JButton exitButton = new JButton("Exit");
+		exitButton.addActionListener(control);
+		JPanel exitButtonBuffer = new JPanel();
+		exitButtonBuffer.add(exitButton);
+		
+		JPanel grid = new JPanel(new GridLayout(5, 1, 5, 5));
 		grid.add(label);
 		grid.add(loginButtonBuffer);
 		grid.add(createButtonBuffer);
+		grid.add(exitButtonBuffer);
 		
 		add(grid, new GridBagConstraints());
 	}
