@@ -1,18 +1,19 @@
 package MemoryCardGame.client;
 
-import MemoryCardGame.client.controls.CreateAccountControl;
-import MemoryCardGame.client.controls.InitialControl;
-import MemoryCardGame.client.controls.LoginControl;
-import MemoryCardGame.client.controls.WaitingControl;
-import MemoryCardGame.client.panels.CreateAccountPanel;
-import MemoryCardGame.client.panels.InitialPanel;
-import MemoryCardGame.client.panels.LoginPanel;
-import MemoryCardGame.client.panels.WaitingPanel;
+import MemoryCardGame.client.control.CreateAccountControl;
+import MemoryCardGame.client.control.InitialControl;
+import MemoryCardGame.client.control.LoginControl;
+import MemoryCardGame.client.control.WaitingControl;
+import MemoryCardGame.client.panel.CreateAccountPanel;
+import MemoryCardGame.client.panel.InitialPanel;
+import MemoryCardGame.client.panel.LoginPanel;
+import MemoryCardGame.client.panel.WaitingPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
-public class ClientGUI extends JFrame {
+public class MemoryCardGameClientGUI extends JFrame {
 	
 	public static final int INITIAL_PANEL        = 1;
 	public static final int LOGIN_PANEL          = 2;
@@ -22,7 +23,9 @@ public class ClientGUI extends JFrame {
 	private final CardLayout layout    = new CardLayout();
 	private final JPanel     container = new JPanel(layout);
 	
-	public ClientGUI() {
+	private final MemoryCardGameClient client;
+	
+	public MemoryCardGameClientGUI() {
 		setTitle("Memory Card Game");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,10 +54,26 @@ public class ClientGUI extends JFrame {
 		// Add the card layout container to the JFrame.
 		add(container, BorderLayout.CENTER);
 		
+		client = new MemoryCardGameClient();
+		try {
+			client.openConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void switchToPanel(int panel) {
 		layout.show(container, String.valueOf(panel));
+	}
+	
+	public void stop() {
+		try {
+			client.closeConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
 	}
 	
 }

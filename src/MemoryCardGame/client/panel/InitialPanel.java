@@ -1,6 +1,6 @@
-package MemoryCardGame.client.panels;
+package MemoryCardGame.client.panel;
 
-import MemoryCardGame.client.controls.InitialControl;
+import MemoryCardGame.client.control.InitialControl;
 
 import javax.swing.*;
 import java.awt.*;

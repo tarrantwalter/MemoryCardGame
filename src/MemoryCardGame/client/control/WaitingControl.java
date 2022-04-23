@@ -1,6 +1,6 @@
-package MemoryCardGame.client.controls;
+package MemoryCardGame.client.control;
 
-import MemoryCardGame.client.ClientGUI;
+import MemoryCardGame.client.MemoryCardGameClientGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 
 public class WaitingControl implements ActionListener {
 	
-	private final ClientGUI        client;
-	private       Consumer<String> errorFunction;
+	private final MemoryCardGameClientGUI client;
+	private       Consumer<String>        errorFunction;
 	
-	public WaitingControl(ClientGUI client) {
+	public WaitingControl(MemoryCardGameClientGUI client) {
 		this.client = client;
 	}
 	
@@ -23,7 +23,7 @@ public class WaitingControl implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
 		if (buttonName.equals("Cancel")) {
-			client.switchToPanel(ClientGUI.INITIAL_PANEL);
+			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
 		}
 	}
 	

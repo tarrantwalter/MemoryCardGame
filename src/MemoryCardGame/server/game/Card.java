@@ -1,4 +1,4 @@
-package MemoryCardGame.client.game;
+package MemoryCardGame.server.game;
 
 import javax.swing.*;
 
@@ -9,9 +9,7 @@ public class Card {
 	private final int number;
 	private final JLabel  face;
 	private final JLabel  back;
-	
 	private boolean isFaceUp = false;
-	private Card pair = null;
 	
 	public Card(int x, int y, int number, JLabel face, JLabel back) {
 		this.x = x;
@@ -21,20 +19,13 @@ public class Card {
 		this.back = back;
 	}
 	
-	public Card getPair() {
-		return this.pair;
+	@Override
+	public boolean equals(Object object) {
+		return object instanceof Card && this.x == ((Card)object).x && this.y == ((Card)object).y;
 	}
 	
-	public void setPair(Card pair) {
-		this.pair = pair;
-	}
-	
-	public boolean hasPair() {
-		return this.pair != null;
-	}
-	
-	public boolean equals(Card other) {
-		return this.x == other.x && this.y == other.y;
+	public boolean match(Card card) {
+		return number == card.number;
 	}
 	
 	public int getX() {
@@ -57,7 +48,7 @@ public class Card {
 	}
 	
 	public String toString() {
-		return "Card[x=" + x + ",y=" + y + ",isFaceUp=" + isFaceUp + "]";
+		return String.format("Card[x=%s,y=%s,number=%s,isFaceUp=%s]", x, y, number, isFaceUp);
 	}
 	
 }

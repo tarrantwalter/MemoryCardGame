@@ -1,6 +1,6 @@
-package MemoryCardGame.client.panels;
+package MemoryCardGame.client.panel;
 
-import MemoryCardGame.client.controls.WaitingControl;
+import MemoryCardGame.client.control.WaitingControl;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
-package MemoryCardGame.client.controls;
+package MemoryCardGame.client.control;
 
-import MemoryCardGame.client.ClientGUI;
+import MemoryCardGame.client.MemoryCardGameClientGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 
 public class LoginControl implements ActionListener {
 	
-	private final ClientGUI        client;
-	private       Consumer<String> errorFunction;
+	private final MemoryCardGameClientGUI client;
+	private       Consumer<String>        errorFunction;
 	
-	public LoginControl(ClientGUI client) {
+	public LoginControl(MemoryCardGameClientGUI client) {
 		this.client = client;
 	}
 	
@@ -24,9 +24,9 @@ public class LoginControl implements ActionListener {
 		String buttonName = event.getActionCommand();
 		if (buttonName.equals("Login")) {
 			// TODO: Implement login
-			client.switchToPanel(ClientGUI.WAITING_PANEL);
+			client.switchToPanel(MemoryCardGameClientGUI.WAITING_PANEL);
 		} else if (buttonName.equals("Cancel")) {
-			client.switchToPanel(ClientGUI.INITIAL_PANEL);
+			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
 		}
 	}
 	
