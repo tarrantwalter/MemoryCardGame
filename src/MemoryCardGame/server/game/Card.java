@@ -6,10 +6,10 @@ public class Card {
 	
 	private final int     x;
 	private final int     y;
-	private final int number;
+	private final int     number;
 	private final JLabel  face;
 	private final JLabel  back;
-	private boolean isFaceUp = false;
+	private       boolean isFaceUp = false;
 	
 	public Card(int x, int y, int number, JLabel face, JLabel back) {
 		this.x = x;
@@ -24,7 +24,7 @@ public class Card {
 		return object instanceof Card && this.x == ((Card)object).x && this.y == ((Card)object).y;
 	}
 	
-	public boolean match(Card card) {
+	public boolean matches(Card card) {
 		return number == card.number;
 	}
 	

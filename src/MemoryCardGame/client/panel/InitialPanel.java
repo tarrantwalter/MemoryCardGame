@@ -35,4 +35,6 @@ public class InitialPanel extends JPanel {
 		add(grid, new GridBagConstraints());
 	}
 	
+	public void reset() {}
+	
 }

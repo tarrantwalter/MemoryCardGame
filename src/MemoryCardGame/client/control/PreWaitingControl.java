@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
-public class WaitingControl implements ActionListener {
+public class PreWaitingControl implements ActionListener {
 	
-	private final MemoryCardGameClientGUI client;
+	private final MemoryCardGameClientGUI gui;
 	private       Consumer<String>        errorFunction;
 	
-	public WaitingControl(MemoryCardGameClientGUI client) {
-		this.client = client;
+	public PreWaitingControl(MemoryCardGameClientGUI gui) {
+		this.gui = gui;
 	}
 	
 	public void setErrorFunction(Consumer<String> errorFunction) {
@@ -22,8 +22,10 @@ public class WaitingControl implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
-		if (buttonName.equals("Cancel")) {
-			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
+		if (buttonName.equals("Join")) {
+			gui.getClient().send("JoinGame");
+		} else if (buttonName.equals("Cancel")) {
+			gui.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
 		}
 	}
 	

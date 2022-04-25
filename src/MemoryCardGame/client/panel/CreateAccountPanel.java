@@ -52,4 +52,6 @@ public class CreateAccountPanel extends JPanel {
 		
 	}
 	
+	public void reset() {}
+	
 }

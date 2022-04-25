@@ -17,6 +17,7 @@ public class InitialControl implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
 		if (buttonName.equals("Login")) {
+			client.getLoginPanel().clearErrorMessage();
 			client.switchToPanel(MemoryCardGameClientGUI.LOGIN_PANEL);
 		} else if (buttonName.equals("Create")) {
 			client.switchToPanel(MemoryCardGameClientGUI.CREATE_ACCOUNT_PANEL);

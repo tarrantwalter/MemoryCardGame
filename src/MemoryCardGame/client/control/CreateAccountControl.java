@@ -24,7 +24,7 @@ public class CreateAccountControl implements ActionListener {
 		String buttonName = event.getActionCommand();
 		if (buttonName.equals("Create")) {
 			// TODO: Implement login
-			client.switchToPanel(MemoryCardGameClientGUI.WAITING_PANEL);
+			client.switchToPanel(MemoryCardGameClientGUI.PRE_WAITING_PANEL);
 		} else if (buttonName.equals("Cancel")) {
 			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
 		}

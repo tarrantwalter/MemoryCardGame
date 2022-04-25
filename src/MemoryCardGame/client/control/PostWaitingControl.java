@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
-public class LoginControl implements ActionListener {
+public class PostWaitingControl implements ActionListener {
 	
-	private final MemoryCardGameClientGUI client;
+	private final MemoryCardGameClientGUI gui;
 	private       Consumer<String>        errorFunction;
 	
-	public LoginControl(MemoryCardGameClientGUI client) {
-		this.client = client;
+	public PostWaitingControl(MemoryCardGameClientGUI gui) {
+		this.gui = gui;
 	}
 	
 	public void setErrorFunction(Consumer<String> errorFunction) {
@@ -22,12 +22,9 @@ public class LoginControl implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
-		if (buttonName.equals("Login")) {
-			// TODO: Implement login
-			
-			client.getClient().send(client.getLoginPanel().constructLoginRequest());
-		} else if (buttonName.equals("Cancel")) {
-			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
+		if (buttonName.equals("Cancel")) {
+			gui.getClient().send("CancelJoin");
+			gui.switchToPanel(MemoryCardGameClientGUI.PRE_WAITING_PANEL);
 		}
 	}
 	
