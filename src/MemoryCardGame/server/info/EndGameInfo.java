@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 public class EndGameInfo implements Serializable {
 	
-	private final boolean won;
+	private final String result;
 	
-	public EndGameInfo(boolean won) {
-		this.won = won;
+	public EndGameInfo(String result) {
+		this.result = result;
 	}
 	
-	public boolean won() {
-		return won;
+	public String getResult() {
+		return result;
 	}
 	
 	@Override
 	public String toString() {
-		return "EndGameInfo[won=" + won + "]";
+		return "EndGameInfo[result=" + result + "]";
 	}
 	
 }

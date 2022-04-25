@@ -106,6 +106,22 @@ public class MemoryCardGameClientGUI extends JFrame {
 		return loginPanel;
 	}
 	
+	public CreateAccountPanel getCreateAccountPanel() {
+		return createAccountPanel;
+	}
+	
+	public PreWaitingPanel getPreWaitingPanel() {
+		return preWaitingPanel;
+	}
+	
+	public PostWaitingPanel getPostWaitingPanel() {
+		return postWaitingPanel;
+	}
+	
+	public GamePanel getGamePanel() {
+		return gamePanel;
+	}
+	
 	public GameOverPanel getGameOverPanel() {
 		return gameOverPanel;
 	}

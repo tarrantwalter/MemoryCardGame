@@ -33,7 +33,11 @@ public class GameOverPanel extends JPanel {
 	}
 	
 	public void setEndGameInfo(EndGameInfo info) {
-		label.setText(info.won() ? "You won!" : "You lost!");
+		switch (info.getResult()) {
+			case "win" -> label.setText("You won!");
+			case "lose" -> label.setText("You lost.");
+			case "tie" -> label.setText("It's a draw!");
+		}
 	}
 	
 	public void reset() {}

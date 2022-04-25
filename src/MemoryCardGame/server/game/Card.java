@@ -1,22 +1,16 @@
 package MemoryCardGame.server.game;
 
-import javax.swing.*;
-
 public class Card {
 	
 	private final int     x;
 	private final int     y;
 	private final int     number;
-	private final JLabel  face;
-	private final JLabel  back;
-	private       boolean isFaceUp = false;
+	private       boolean isRevealed = false;
 	
-	public Card(int x, int y, int number, JLabel face, JLabel back) {
+	public Card(int x, int y, int number) {
 		this.x = x;
 		this.y = y;
 		this.number = number;
-		this.face = face;
-		this.back = back;
 	}
 	
 	@Override
@@ -36,19 +30,20 @@ public class Card {
 		return y;
 	}
 	
-	public boolean isFaceUp() {
-		return isFaceUp;
+	public int getNumber() {
+		return number;
 	}
 	
-	public void flip() {
-		isFaceUp = !isFaceUp;
-		face.setVisible(isFaceUp);
-		back.setVisible(!isFaceUp);
-		// TODO Auto-generated method stub
+	public void setRevealed(boolean revealed) {
+		isRevealed = revealed;
+	}
+	
+	public boolean isRevealed() {
+		return isRevealed;
 	}
 	
 	public String toString() {
-		return String.format("Card[x=%s,y=%s,number=%s,isFaceUp=%s]", x, y, number, isFaceUp);
+		return String.format("Card[x=%s,y=%s,number=%s,isRevealed=%s]", x, y, number, isRevealed);
 	}
 	
 }

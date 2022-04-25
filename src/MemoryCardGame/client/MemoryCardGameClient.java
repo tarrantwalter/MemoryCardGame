@@ -1,7 +1,9 @@
 package MemoryCardGame.client;
 
 import MemoryCardGame.server.info.EndGameInfo;
+import MemoryCardGame.server.info.FlipCardInfo;
 import MemoryCardGame.server.info.StartGameInfo;
+import MemoryCardGame.server.info.TurnInfo;
 import MemoryCardGame.server.response.JoinResponse;
 import MemoryCardGame.server.response.LoginResponse;
 import ocsf.client.AbstractClient;
@@ -54,6 +56,7 @@ public class MemoryCardGameClient extends AbstractClient {
 			
 			logger.info("StartGameInfo: " + info);
 			
+			gui.getGamePanel().setStartGameInfo(info);
 			gui.switchToPanel(MemoryCardGameClientGUI.GAME_PANEL);
 			
 		} else if (object instanceof EndGameInfo info) {
@@ -62,6 +65,18 @@ public class MemoryCardGameClient extends AbstractClient {
 			
 			gui.getGameOverPanel().setEndGameInfo(info);
 			gui.switchToPanel(MemoryCardGameClientGUI.GAME_OVER_PANEL);
+			
+		} else if (object instanceof TurnInfo info) {
+			
+			logger.info("TurnInfo: " + info);
+			
+			gui.getGamePanel().setTurn(info.isTurn());
+			
+		} else if (object instanceof FlipCardInfo info) {
+			
+			logger.info("FlipCardInfo: " + info);
+			
+			gui.getGamePanel().flipCard(info.getX(), info.getY(), info.getNumber());
 			
 		} else {
 			logger.severe("Unknown response: " + object);

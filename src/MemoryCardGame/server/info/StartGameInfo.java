@@ -1,22 +1,29 @@
 package MemoryCardGame.server.info;
 
+import MemoryCardGame.server.game.Game;
+
 import java.io.Serializable;
 
 public class StartGameInfo implements Serializable {
 	
-	private final int test;
+	private final int columns = Game.COLUMNS;
+	private final int rows;
 	
-	public StartGameInfo() {
-		test = 1;
+	public StartGameInfo(int rows) {
+		this.rows = rows;
 	}
 	
-	public int getTest() {
-		return test;
+	public int getColumns() {
+		return columns;
+	}
+	
+	public int getRows() {
+		return rows;
 	}
 	
 	@Override
 	public String toString() {
-		return "StartGameInfo[test=" + test + "]";
+		return "StartGameInfo[columns=" + columns + ",rows=" + rows + "]";
 	}
 
 }

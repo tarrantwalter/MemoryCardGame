@@ -1,7 +1,10 @@
 package MemoryCardGame.server;
 
+import MemoryCardGame.client.request.CardSelectRequest;
 import MemoryCardGame.client.request.LoginRequest;
+import MemoryCardGame.server.game.Game;
 import MemoryCardGame.server.game.GameProvider;
+import MemoryCardGame.server.game.Player;
 import MemoryCardGame.server.game.PlayerManager;
 import MemoryCardGame.server.response.JoinResponse;
 import MemoryCardGame.server.response.LoginResponse;
@@ -32,22 +35,37 @@ public class MemoryCardGameServer extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object object, ConnectionToClient client) {
 		if (object instanceof LoginRequest request) {
+			
 			logger.info("Server received LoginRequest: " + request);
+			
 			if ((request.getUsername().equals("test1") && request.getPassword().equals("1")) ||
 					(request.getUsername().equals("test2") && request.getPassword().equals("2"))) {
+				
 				send(client, new LoginResponse(request, true));
 				playerManager.createPlayer(request.getUsername(), client);
+				
 			} else {
 				send(client, new LoginResponse(request, false, "Invalid username or password"));
 			}
+			
 		} else if (object instanceof String request) {
+			
 			logger.info("Server received String: " + request);
+			
 			if (request.equals("JoinGame")) {
 				send(client, new JoinResponse(true));
 				gameProvider.playerJoined(playerManager.getPlayer(client));
 			} else if (request.equals("LeaveGame")) {
 				gameProvider.playerLeft(playerManager.getPlayer(client));
 			}
+			
+		} else if (object instanceof CardSelectRequest request) {
+			
+			logger.info("Server received CardSelectRequest: " + request);
+			
+			Player player = playerManager.getPlayer(client);
+			Game   game   = gameProvider.getPlayerGame(player);
+			game.playerSelectedCard(player, request.getX(), request.getY());
 			
 		}
 	}
