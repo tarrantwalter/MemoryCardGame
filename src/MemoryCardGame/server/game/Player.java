@@ -25,6 +25,7 @@ public class Player {
 	public void send(Object message) {
 		try {
 			client.sendToClient(message);
+			System.out.println("Sent message to " + username + ": " + message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

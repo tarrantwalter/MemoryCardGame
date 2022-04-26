@@ -90,7 +90,7 @@ public class MemoryCardGameClientGUI extends JFrame {
 				postWaitingPanel.reset();
 				break;
 			case GAME_PANEL:
-				gamePanel.reset();
+				//gamePanel.reset();
 				break;
 			case GAME_OVER_PANEL:
 				gameOverPanel.reset();

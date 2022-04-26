@@ -63,6 +63,7 @@ public class MemoryCardGameClient extends AbstractClient {
 			
 			logger.info("EndGameInfo: " + info);
 			
+			gui.getGamePanel().reset();
 			gui.getGameOverPanel().setEndGameInfo(info);
 			gui.switchToPanel(MemoryCardGameClientGUI.GAME_OVER_PANEL);
 			
@@ -71,6 +72,7 @@ public class MemoryCardGameClient extends AbstractClient {
 			logger.info("TurnInfo: " + info);
 			
 			gui.getGamePanel().setTurn(info.isTurn());
+			gui.getGamePanel().updateScores(info.getMyScore(), info.getOpponentScore());
 			
 		} else if (object instanceof FlipCardInfo info) {
 			

@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class GamePanel extends JPanel {
 	
-	private static final int CARD_WIDTH  = 50;
-	private static final int CARD_HEIGHT = 100;
+	private static final int CARD_WIDTH  = 40;
+	private static final int CARD_HEIGHT = 80;
 	
 	private final Image                 cardBack;
 	private final Map<Integer, Image>   cardImages;
@@ -23,10 +23,21 @@ public class GamePanel extends JPanel {
 	private final CardData[][]          cardPositions;
 	private final GameControl           control;
 	private final JPanel                cardPanel;
+	private final JLabel                myScoreLabel;
+	private final JLabel                opponentScoreLabel;
 	
 	public GamePanel(GameControl control) {
 		super(new GridBagLayout());
 		this.control = control;
+		
+		myScoreLabel = new JLabel("0");
+		JLabel divider = new JLabel("-");
+		opponentScoreLabel = new JLabel("0");
+		
+		JPanel headerPanel = new JPanel(new FlowLayout());
+		headerPanel.add(myScoreLabel);
+		headerPanel.add(divider);
+		headerPanel.add(opponentScoreLabel);
 		
 		cardPanel = new JPanel(new GridLayout(6, 6, 5, 5));
 		
@@ -36,11 +47,13 @@ public class GamePanel extends JPanel {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(cancelButton);
 		
-		JPanel grid = new JPanel(new GridLayout(2, 1, 0, 0));
+		JPanel grid = new JPanel();
+		grid.setLayout(new BoxLayout(grid, BoxLayout.Y_AXIS));
+		grid.add(headerPanel);
 		grid.add(cardPanel);
 		grid.add(buttonPanel);
 		
-		add(grid, new GridBagConstraints());
+		add(grid);
 		
 		cardImages = new HashMap<>();
 		cardPositionsReverse = new HashMap<>();
@@ -55,6 +68,11 @@ public class GamePanel extends JPanel {
 			throw new RuntimeException(e);
 		}
 		
+	}
+	
+	public void updateScores(int myScore, int opponentScore) {
+		myScoreLabel.setText(String.valueOf(myScore));
+		opponentScoreLabel.setText(String.valueOf(opponentScore));
 	}
 	
 	public void flipCard(int x, int y, int number) {
@@ -106,6 +124,9 @@ public class GamePanel extends JPanel {
 		control.setTurn(turn);
 	}
 	
-	public void reset() {}
+	public void reset() {
+		cardPanel.removeAll();
+		cardPositionsReverse.clear();
+	}
 	
 }

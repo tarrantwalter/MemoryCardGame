@@ -5,30 +5,30 @@ import java.io.Serializable;
 public class TurnInfo implements Serializable {
 	
 	private final boolean isTurn;
-	private final int player1Score;
-	private final int player2Score;
+	private final int myScore;
+	private final int opponentScore;
 	
-	public TurnInfo(boolean isTurn, int player1Score, int player2Score) {
+	public TurnInfo(boolean isTurn, int myScore, int opponentScore) {
 		this.isTurn = isTurn;
-		this.player1Score = player1Score;
-		this.player2Score = player2Score;
+		this.myScore = myScore;
+		this.opponentScore = opponentScore;
 	}
 	
 	public boolean isTurn() {
 		return isTurn;
 	}
 	
-	public int getPlayer1Score() {
-		return player1Score;
+	public int getMyScore() {
+		return myScore;
 	}
 	
-	public int getPlayer2Score() {
-		return player2Score;
+	public int getOpponentScore() {
+		return opponentScore;
 	}
 	
 	@Override
 	public String toString() {
-		return "TurnInfo[isTurn=" + isTurn + ",player1Score=" + player1Score + ",player2Score=" + player2Score + "]";
+		return "TurnInfo[isTurn=" + isTurn + ",myScore=" + myScore + ",opponentScore=" + opponentScore + "]";
 	}
 	
 }

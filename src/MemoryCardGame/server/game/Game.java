@@ -27,12 +27,18 @@ public class Game {
 	private final int          numberOfPairs;
 	
 	private Player     player1;
-	private int        player1Score  = 0;
+	private int        player1ScoreIncrement = 10;
+	private int        player1Matches        = 0;
+	private int        player1Guesses        = 0;
+	private int        player1Score          = 0;
 	private Player     player2;
-	private int        player2Score  = 0;
+	private int        player2ScoreIncrement = 10;
+	private int        player2Matches        = 0;
+	private int        player2Guesses        = 0;
+	private int        player2Score          = 0;
 	private boolean    isPlayer1Turn;
-	private List<Card> selectedCards = new ArrayList<>(2);
-	private int        matches       = 0;
+	private List<Card> selectedCards         = new ArrayList<>(2);
+	private int        matches               = 0;
 	
 	public Game(GameProvider gameProvider, int numberOfRows, Player player1, Player player2) {
 		this.gameProvider = gameProvider;
@@ -58,8 +64,8 @@ public class Game {
 	}
 	
 	public void startTurn() {
-		player1.send(new TurnInfo(isPlayer1Turn, player1Score, player2Score));
-		player2.send(new TurnInfo(!isPlayer1Turn, player1Score, player2Score));
+		player1.send(new TurnInfo(isPlayer1Turn, player1Matches, player2Matches));
+		player2.send(new TurnInfo(!isPlayer1Turn, player2Matches, player1Matches));
 	}
 	
 	public void playerSelectedCard(Player player, int x, int y) {
@@ -86,19 +92,26 @@ public class Game {
 	}
 	
 	public void endTurn() {
+		if (isPlayer1Turn) {
+			player1Guesses++;
+		} else {
+			player2Guesses++;
+		}
 		if (selectedCards.get(0).getNumber() == selectedCards.get(1).getNumber()) {
 			if (isPlayer1Turn) {
-				player1Score++;
+				player1Score += player1ScoreIncrement;
+				player1Matches++;
 				matches++;
-				if (player1Score > numberOfPairs / 2) {
-					endGame(player1, player2);
+				if (player1Matches > numberOfPairs / 2) {
+					executor.schedule(() -> endGame(player1, player2), 2, TimeUnit.SECONDS);
 					return;
 				}
 			} else {
-				player2Score++;
+				player2Score += player2ScoreIncrement;
+				player2Matches++;
 				matches++;
-				if (player2Score > numberOfPairs / 2) {
-					endGame(player2, player1);
+				if (player2Matches > numberOfPairs / 2) {
+					executor.schedule(() -> endGame(player2, player1), 2, TimeUnit.SECONDS);
 					return;
 				}
 			}
@@ -118,6 +131,13 @@ public class Game {
 					player1.send(info);
 					player2.send(info);
 				});
+				if (isPlayer1Turn) {
+					player1ScoreIncrement--;
+					player1ScoreIncrement = Math.max(player1ScoreIncrement, 1);
+				} else {
+					player2ScoreIncrement--;
+					player2ScoreIncrement = Math.max(player2ScoreIncrement, 1);
+				}
 				isPlayer1Turn = !isPlayer1Turn;
 				selectedCards.clear();
 				if (matches >= numberOfPairs) {
@@ -141,18 +161,21 @@ public class Game {
 	}
 	
 	public void endGame(Player winner, Player loser) {
+		boolean player1Won = winner == player1;
+		//System.out.println("1");
+		winner.send(new EndGameInfo("win", player1Won ? player1Score : player2Score,
+				player1Won ? player1Matches * 100 / Math.max(player1Guesses, 1) : player2Matches * 100 / Math.max(player2Guesses, 1)));
+		//System.out.println("2");
+		loser.send(new EndGameInfo("lose", player1Won ? player2Score : player1Score,
+				player1Won ? player2Matches * 100 / Math.max(player2Guesses, 1) : player1Matches * 100 / Math.max(player1Guesses, 1)));
+		//System.out.println("3");
 		gameProvider.removeGame(this);
-		winner.send(new EndGameInfo("win"));
-		loser.send(new EndGameInfo("lose"));
-		// TODO score
-		
 	}
 	
 	public void endGameDraw() {
 		gameProvider.removeGame(this);
-		player1.send(new EndGameInfo("tie"));
-		player2.send(new EndGameInfo("tie"));
-		// TODO score
+		player1.send(new EndGameInfo("tie", player1Score, player1Matches * 100 / player1Guesses));
+		player2.send(new EndGameInfo("tie", player2Score, player2Matches * 100 / player2Guesses));
 	}
 	
 }
