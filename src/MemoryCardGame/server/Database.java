@@ -30,18 +30,58 @@ public class Database {
 	
 	public void createTable() {
 		String query = "CREATE TABLE IF NOT EXISTS users (" +
-				"username VARCHAR(255) NOT NULL," +
-				"password VARCHAR(255) NOT NULL," +
+				"username VARCHAR(24) NOT NULL," +
+				"password VARBINARY(32) NOT NULL," +
 				"total_score int," +
 				"highest_score smallint," +
 				"wins smallint," +
 				"games_played smallint," +
 				"matches smallint," +
-				"guesses smallint" +
-				"PRIMARY KEY (username)" +
-				")";
+				"guesses smallint," +
+				"CONSTRAINT users_username_pk PRIMARY KEY (username)" +
+				");";
 		try {
 			executeDML(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean login(String username, String password) {
+		String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = aes_encrypt('" + password + "','definitelysecure');";
+		List<String> list = query(query);
+		return list != null;
+	}
+	
+	public boolean createAccount(String username, String password) {
+		String query = "SELECT * FROM users WHERE username = '" + username + "';";
+		List<String> list = query(query);
+		if (list != null) {
+			return false;
+		}
+		String query2 = String.format("INSERT INTO users (username, password, total_score, highest_score, wins, games_played, matches, guesses)" +
+				"VALUES ('%s', aes_encrypt('%s','definitelysecure'), '%s', '%s', '%s', '%s', '%s', '%s');", username, password, 0, 0, 0, 0, 0, 0);
+		try {
+			executeDML(query2);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(list);
+		return true;
+	}
+	
+	public void updateUser(String username, int totalScore, int highestScore, int wins, int gamesPlayed, int matches, int guesses) {
+		String query = "UPDATE users SET total_score = ?, highest_score = ?, wins = ?, games_played = ?, matches = ?, guesses = ? WHERE username = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, totalScore);
+			stmt.setInt(2, highestScore);
+			stmt.setInt(3, wins);
+			stmt.setInt(4, gamesPlayed);
+			stmt.setInt(5, matches);
+			stmt.setInt(6, guesses);
+			stmt.setString(7, username);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

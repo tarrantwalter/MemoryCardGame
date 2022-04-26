@@ -1,11 +1,13 @@
 package MemoryCardGame.server;
 
 import MemoryCardGame.client.request.CardSelectRequest;
+import MemoryCardGame.client.request.CreateAccountRequest;
 import MemoryCardGame.client.request.LoginRequest;
 import MemoryCardGame.server.game.Game;
 import MemoryCardGame.server.game.GameProvider;
 import MemoryCardGame.server.game.Player;
 import MemoryCardGame.server.game.PlayerManager;
+import MemoryCardGame.server.response.CreateAccountResponse;
 import MemoryCardGame.server.response.JoinResponse;
 import MemoryCardGame.server.response.LoginResponse;
 import ocsf.server.AbstractServer;
@@ -17,7 +19,6 @@ import java.util.logging.Logger;
 public class MemoryCardGameServer extends AbstractServer {
 	
 	private final Logger logger;
-	
 	private final GameProvider  gameProvider;
 	private final PlayerManager playerManager;
 	private final Database      database;
@@ -34,14 +35,17 @@ public class MemoryCardGameServer extends AbstractServer {
 		return logger;
 	}
 	
+	public Database getDatabase() {
+		return database;
+	}
+	
 	@Override
 	protected void handleMessageFromClient(Object object, ConnectionToClient client) {
 		if (object instanceof LoginRequest request) {
 			
 			logger.info("Server received LoginRequest: " + request);
 			
-			if ((request.getUsername().equals("test1") && request.getPassword().equals("1")) ||
-					(request.getUsername().equals("test2") && request.getPassword().equals("2"))) {
+			if (database.login(request.getUsername(), request.getPassword())) {
 				
 				send(client, new LoginResponse(request, true));
 				playerManager.createPlayer(request.getUsername(), client);
@@ -68,6 +72,16 @@ public class MemoryCardGameServer extends AbstractServer {
 			Player player = playerManager.getPlayer(client);
 			Game   game   = gameProvider.getPlayerGame(player);
 			game.playerSelectedCard(player, request.getX(), request.getY());
+			
+		} else if (object instanceof CreateAccountRequest request) {
+			
+			logger.info("Server received CreateAccountRequest: " + request);
+			
+			if (database.createAccount(request.getUsername(), request.getPassword())) {
+				send(client, new CreateAccountResponse(request, true));
+			} else {
+				send(client, new CreateAccountResponse(request, false, "Username already exists"));
+			}
 			
 		}
 	}

@@ -31,4 +31,10 @@ public class LoginControl implements ActionListener {
 		}
 	}
 	
+	public void setError(String message) {
+		if (errorFunction != null) {
+			errorFunction.accept(message);
+		}
+	}
+	
 }

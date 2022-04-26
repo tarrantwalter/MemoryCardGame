@@ -4,6 +4,7 @@ import MemoryCardGame.server.info.EndGameInfo;
 import MemoryCardGame.server.info.FlipCardInfo;
 import MemoryCardGame.server.info.StartGameInfo;
 import MemoryCardGame.server.info.TurnInfo;
+import MemoryCardGame.server.response.CreateAccountResponse;
 import MemoryCardGame.server.response.JoinResponse;
 import MemoryCardGame.server.response.LoginResponse;
 import ocsf.client.AbstractClient;
@@ -79,6 +80,18 @@ public class MemoryCardGameClient extends AbstractClient {
 			logger.info("FlipCardInfo: " + info);
 			
 			gui.getGamePanel().flipCard(info.getX(), info.getY(), info.getNumber());
+			
+		} else if (object instanceof CreateAccountResponse response) {
+			
+			logger.info("CreateAccountResponse: " + response);
+			
+			if (response.wasSuccessful()) {
+				logger.info("Create account successful.");
+				gui.switchToPanel(MemoryCardGameClientGUI.PRE_WAITING_PANEL);
+			} else {
+				logger.info("Create account failed, resson: " + response.getFailureMessage());
+				gui.getCreateAccountPanel().setErrorMessage(response.getFailureMessage());
+			}
 			
 		} else {
 			logger.severe("Unknown response: " + object);

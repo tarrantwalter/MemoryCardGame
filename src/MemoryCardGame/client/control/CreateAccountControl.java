@@ -1,6 +1,7 @@
 package MemoryCardGame.client.control;
 
 import MemoryCardGame.client.MemoryCardGameClientGUI;
+import MemoryCardGame.client.request.CreateAccountRequest;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,11 +9,11 @@ import java.util.function.Consumer;
 
 public class CreateAccountControl implements ActionListener {
 	
-	private final MemoryCardGameClientGUI client;
+	private final MemoryCardGameClientGUI gui;
 	private       Consumer<String>        errorFunction;
 	
-	public CreateAccountControl(MemoryCardGameClientGUI client) {
-		this.client = client;
+	public CreateAccountControl(MemoryCardGameClientGUI gui) {
+		this.gui = gui;
 	}
 	
 	public void setErrorFunction(Consumer<String> errorFunction) {
@@ -23,10 +24,21 @@ public class CreateAccountControl implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String buttonName = event.getActionCommand();
 		if (buttonName.equals("Create")) {
-			// TODO: Implement login
-			client.switchToPanel(MemoryCardGameClientGUI.PRE_WAITING_PANEL);
+			CreateAccountRequest request = gui.getCreateAccountPanel().constructCreateAccountRequest();
+			if (request == null) {
+				setError("Passwords do not match!");
+			} else {
+				gui.getClient().send(request);
+			}
+			//gui.switchToPanel(MemoryCardGameClientGUI.PRE_WAITING_PANEL);
 		} else if (buttonName.equals("Cancel")) {
-			client.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
+			gui.switchToPanel(MemoryCardGameClientGUI.INITIAL_PANEL);
+		}
+	}
+	
+	public void setError(String message) {
+		if (errorFunction != null) {
+			errorFunction.accept(message);
 		}
 	}
 	

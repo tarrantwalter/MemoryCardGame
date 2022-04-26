@@ -25,8 +25,8 @@ public class LoginPanel extends JPanel {
 		
 		JLabel userLabel = new JLabel("Username: ");
 		JLabel passLabel = new JLabel("Password: ");
-		userField = new JTextField(10);
-		passField = new JPasswordField(10);
+		userField = new JTextField(24);
+		passField = new JPasswordField(24);
 		
 		JButton loginButton  = new JButton("Login");
 		JButton cancelButton = new JButton("Cancel");
@@ -66,6 +66,8 @@ public class LoginPanel extends JPanel {
 	}
 	
 	public void reset() {
+		userField.setText("");
+		passField.setText("");
 		clearErrorMessage();
 	}
 	

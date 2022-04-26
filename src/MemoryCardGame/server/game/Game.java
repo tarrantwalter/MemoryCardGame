@@ -162,20 +162,71 @@ public class Game {
 	
 	public void endGame(Player winner, Player loser) {
 		boolean player1Won = winner == player1;
-		//System.out.println("1");
 		winner.send(new EndGameInfo("win", player1Won ? player1Score : player2Score,
 				player1Won ? player1Matches * 100 / Math.max(player1Guesses, 1) : player2Matches * 100 / Math.max(player2Guesses, 1)));
-		//System.out.println("2");
 		loser.send(new EndGameInfo("lose", player1Won ? player2Score : player1Score,
 				player1Won ? player2Matches * 100 / Math.max(player2Guesses, 1) : player1Matches * 100 / Math.max(player1Guesses, 1)));
-		//System.out.println("3");
+		
+		player1.setGamesPlayed(player1.getGamesPlayed() + 1);
+		player1.setGuesses(player1.getGuesses() + player1Guesses);
+		if (player1Score > player1.getHighestScore()) {
+			player1.setHighestScore(player1Score);
+		}
+		player1.setMatches(player1.getMatches() + player1Matches);
+		player1.setTotalScore(player1.getTotalScore() + player1Score);
+		if (player1Won) {
+			player1.setWins(player1.getWins() + 1);
+		}
+		
+		player2.setGamesPlayed(player2.getGamesPlayed() + 1);
+		player2.setGuesses(player2.getGuesses() + player2Guesses);
+		if (player2Score > player2.getHighestScore()) {
+			player2.setHighestScore(player2Score);
+		}
+		player2.setMatches(player2.getMatches() + player2Matches);
+		player2.setTotalScore(player2.getTotalScore() + player2Score);
+		if (!player1Won) {
+			player2.setWins(player2.getWins() + 1);
+		}
+		
+		gameProvider.getServer().getDatabase()
+				.updateUser(player1.getUsername(), player1.getTotalScore(), player1.getHighestScore(), player1.getWins(), player1.getGamesPlayed(),
+						player1.getMatches(), player1.getGuesses());
+		gameProvider.getServer().getDatabase()
+				.updateUser(player2.getUsername(), player2.getTotalScore(), player2.getHighestScore(), player2.getWins(), player2.getGamesPlayed(),
+						player2.getMatches(), player2.getGuesses());
+		
 		gameProvider.removeGame(this);
 	}
 	
 	public void endGameDraw() {
-		gameProvider.removeGame(this);
 		player1.send(new EndGameInfo("tie", player1Score, player1Matches * 100 / player1Guesses));
 		player2.send(new EndGameInfo("tie", player2Score, player2Matches * 100 / player2Guesses));
+		
+		player1.setGamesPlayed(player1.getGamesPlayed() + 1);
+		player1.setGuesses(player1.getGuesses() + player1Guesses);
+		if (player1Score > player1.getHighestScore()) {
+			player1.setHighestScore(player1Score);
+		}
+		player1.setMatches(player1.getMatches() + player1Matches);
+		player1.setTotalScore(player1.getTotalScore() + player1Score);
+		
+		player2.setGamesPlayed(player2.getGamesPlayed() + 1);
+		player2.setGuesses(player2.getGuesses() + player2Guesses);
+		if (player2Score > player2.getHighestScore()) {
+			player2.setHighestScore(player2Score);
+		}
+		player2.setMatches(player2.getMatches() + player2Matches);
+		player2.setTotalScore(player2.getTotalScore() + player2Score);
+		
+		gameProvider.getServer().getDatabase()
+				.updateUser(player1.getUsername(), player1.getTotalScore(), player1.getHighestScore(), player1.getWins(), player1.getGamesPlayed(),
+						player1.getMatches(), player1.getGuesses());
+		gameProvider.getServer().getDatabase()
+				.updateUser(player2.getUsername(), player2.getTotalScore(), player2.getHighestScore(), player2.getWins(), player2.getGamesPlayed(),
+						player2.getMatches(), player2.getGuesses());
+		
+		gameProvider.removeGame(this);
 	}
 	
 }

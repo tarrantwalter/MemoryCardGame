@@ -33,6 +33,10 @@ public class GameProvider {
 		}
 	}
 	
+	public MemoryCardGameServer getServer() {
+		return server;
+	}
+	
 	public void playerLeft(Player player) {
 		Game game = getPlayerGame(player);
 		if (game != null) {
