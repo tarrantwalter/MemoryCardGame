@@ -20,12 +20,14 @@ public class MemoryCardGameServer extends AbstractServer {
 	
 	private final GameProvider  gameProvider;
 	private final PlayerManager playerManager;
+	private final Database      database;
 	
 	public MemoryCardGameServer() {
 		super(8301);
 		gameProvider = new GameProvider(this);
 		playerManager = new PlayerManager();
 		logger = Logger.getLogger("MemoryCardGameServer");
+		database = new Database();
 	}
 	
 	public Logger getLogger() {

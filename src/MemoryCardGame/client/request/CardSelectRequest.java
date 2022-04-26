@@ -9,7 +9,7 @@ public class CardSelectRequest implements Serializable {
 	
 	public CardSelectRequest(int x, int y) {
 		this.x = x;
-		this.y = y;
+		this.y = y;//a
 	}
 	
 	public int getX() {

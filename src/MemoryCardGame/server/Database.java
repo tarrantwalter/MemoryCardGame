@@ -25,6 +25,26 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		createTable();
+	}
+	
+	public void createTable() {
+		String query = "CREATE TABLE IF NOT EXISTS users (" +
+				"username VARCHAR(255) NOT NULL," +
+				"password VARCHAR(255) NOT NULL," +
+				"total_score int," +
+				"highest_score smallint," +
+				"wins smallint," +
+				"games_played smallint," +
+				"matches smallint," +
+				"guesses smallint" +
+				"PRIMARY KEY (username)" +
+				")";
+		try {
+			executeDML(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<String> query(String query) {
