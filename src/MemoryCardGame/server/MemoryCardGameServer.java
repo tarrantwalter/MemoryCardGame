@@ -79,6 +79,8 @@ public class MemoryCardGameServer extends AbstractServer {
 			
 			if (database.createAccount(request.getUsername(), request.getPassword())) {
 				send(client, new CreateAccountResponse(request, true));
+				playerManager.createPlayer(request.getUsername(), client);
+				
 			} else {
 				send(client, new CreateAccountResponse(request, false, "Username already exists"));
 			}
