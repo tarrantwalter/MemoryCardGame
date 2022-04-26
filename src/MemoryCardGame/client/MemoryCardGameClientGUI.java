@@ -29,7 +29,7 @@ public class MemoryCardGameClientGUI extends JFrame {
 	private final GamePanel          gamePanel;
 	private final GameOverPanel      gameOverPanel;
 	
-	public MemoryCardGameClientGUI() {
+	public MemoryCardGameClientGUI(String host) {
 		setTitle("Memory Card Game");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +67,7 @@ public class MemoryCardGameClientGUI extends JFrame {
 		// Add the card layout container to the JFrame.
 		add(container, BorderLayout.CENTER);
 		
-		client = new MemoryCardGameClient(this);
+		client = new MemoryCardGameClient(this, host);
 		client.start();
 		
 	}

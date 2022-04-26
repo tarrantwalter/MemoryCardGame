@@ -17,8 +17,8 @@ public class MemoryCardGameClient extends AbstractClient {
 	private final Logger                  logger;
 	private final MemoryCardGameClientGUI gui;
 	
-	public MemoryCardGameClient(MemoryCardGameClientGUI gui) {
-		super("localhost", 8301);
+	public MemoryCardGameClient(MemoryCardGameClientGUI gui, String host) {
+		super(host, 8301);
 		this.logger = Logger.getLogger("MemoryCardGameClient");
 		this.gui = gui;
 	}
