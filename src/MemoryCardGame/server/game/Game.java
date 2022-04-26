@@ -6,6 +6,7 @@ import MemoryCardGame.server.info.StartGameInfo;
 import MemoryCardGame.server.info.TurnInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -53,11 +54,17 @@ public class Game {
 		StartGameInfo startGameInfo = new StartGameInfo(numberOfRows);
 		player1.send(startGameInfo);
 		player2.send(startGameInfo);
-		double i = 1;
+		
+		List<Integer> cardNumbers = new ArrayList<>(36);
+		for (int i = 0; i < numberOfPairs; i++) {
+			cardNumbers.add(i + 1);
+			cardNumbers.add(i + 1);
+		}
+		Collections.shuffle(cardNumbers);
+		
 		for (int y = 0; y < numberOfRows; y++) {
 			for (int x = 0; x < COLUMNS; x++) {
-				cards[x][y] = new Card(x, y, (int)i);
-				i += 0.5;
+				cards[x][y] = new Card(x, y, cardNumbers.remove(0));
 			}
 		}
 		startTurn();
@@ -120,8 +127,6 @@ public class Game {
 				endGameDraw();
 				return;
 			}
-			//selectedCards.clear();
-			//isPlayer1Turn = !isPlayer1Turn;
 			startTurn();
 		} else {
 			executor.schedule(() -> {
@@ -144,8 +149,6 @@ public class Game {
 					endGameDraw();
 					return;
 				}
-				//selectedCards.clear();
-				//isPlayer1Turn = !isPlayer1Turn;
 				startTurn();
 			}, 2, TimeUnit.SECONDS);
 		}

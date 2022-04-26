@@ -8,14 +8,14 @@ import java.awt.*;
 
 public class LoginPanel extends JPanel {
 	
-	private final JLabel errorLabel;
+	private final JLabel         errorLabel;
 	private final JTextField     userField;
 	private final JPasswordField passField;
 	
 	public LoginPanel(LoginControl control) {
 		super(new GridBagLayout());
 		
-		JLabel label      = new JLabel("Login", JLabel.CENTER);
+		JLabel label = new JLabel("Login", JLabel.CENTER);
 		errorLabel = new JLabel("", JLabel.CENTER);
 		
 		errorLabel.setForeground(Color.RED);
@@ -28,7 +28,7 @@ public class LoginPanel extends JPanel {
 		userField = new JTextField(24);
 		passField = new JPasswordField(24);
 		
-		JButton loginButton  = new JButton("Login");
+		JButton loginButton = new JButton("Login");
 		JButton cancelButton = new JButton("Cancel");
 		
 		loginButton.addActionListener(control);

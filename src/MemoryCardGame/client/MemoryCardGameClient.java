@@ -46,7 +46,6 @@ public class MemoryCardGameClient extends AbstractClient {
 				gui.switchToPanel(MemoryCardGameClientGUI.POST_WAITING_PANEL);
 			} else {
 				logger.info("Join failed, resson: " + response.getFailureMessage());
-				//gui.getJoinPanel().setErrorMessage(response.getFailureMessage());
 			}
 			
 		} else if (object instanceof String response) {
