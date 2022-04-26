@@ -113,6 +113,7 @@ public class GamePanel extends JPanel {
 				cardPositionsReverse.put(label, data);
 				label.setMinimumSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 				label.addMouseListener(control);
+				label.addMouseMotionListener(control);
 				cardPanel.add(label);
 				label.setVisible(true);
 			}

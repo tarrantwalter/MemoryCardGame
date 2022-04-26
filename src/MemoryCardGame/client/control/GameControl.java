@@ -5,13 +5,10 @@ import MemoryCardGame.client.MemoryCardGameClientGUI;
 import MemoryCardGame.client.request.CardSelectRequest;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.function.Consumer;
 
-public class GameControl implements ActionListener, MouseListener {
+public class GameControl implements ActionListener, MouseListener, MouseMotionListener {
 	
 	private final MemoryCardGameClientGUI gui;
 	private       Consumer<String>        errorFunction;
@@ -39,20 +36,25 @@ public class GameControl implements ActionListener, MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse Clicked");
 		if (turn) {
-			System.out.println("is our turn");
 			if (e.getComponent() instanceof JLabel label) {
-				System.out.println("did click a label");
 				CardData cardData = gui.getGamePanel().getCardData(label);
-				int   x   = cardData.getX();
-				int   y   = cardData.getY();
+				int      x        = cardData.getX();
+				int      y        = cardData.getY();
 				if (!gui.getGamePanel().isCardFlipped(x, y)) {
-					System.out.println("did not click a flipped card");
 					gui.getClient().send(new CardSelectRequest(x, y));
 				}
-				// TODO
 			}
+		}
+	}
+	
+	private long lastClick = 0L;
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if (System.currentTimeMillis() - lastClick > 500L) {
+			lastClick = System.currentTimeMillis();
+			mouseClicked(e);
 		}
 	}
 	
@@ -70,6 +72,11 @@ public class GameControl implements ActionListener, MouseListener {
 	
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	
 	}
 	
 }
